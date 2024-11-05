@@ -1,8 +1,12 @@
 import React from 'react'
+import Sidebar from './ component/comman/Sidebar'
+
 
 const App = () => {
   return (
-    <div className='bg-yellow-500 text-center p-2 font-extrabold'>App</div>
+    <>
+    
+    </>
   )
 }
 

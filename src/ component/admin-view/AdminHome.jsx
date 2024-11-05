@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Sidebar from '../comman/ui/Sidebar';
+import Sidebar from '../comman/Sidebar';
 
 const AdminHome = () => {
     return (
