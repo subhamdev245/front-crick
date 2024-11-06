@@ -27,21 +27,14 @@ export const adminSidebarNav = [
     },
   ];
 
-// src/utils/navbarNav.js
+
 
 export const navbarNav = [
   {
     name: "Home",
     slug: "/",
   },
-  {
-    name: "Shop",
-    slug: "/shop",
-  },
-  {
-    name: "Categories",
-    slug: "/categories",
-  },
+  
   {
     name: "Cart",
     slug: "/cart",
@@ -51,8 +44,8 @@ export const navbarNav = [
     slug: "/account",
   },
   {
-    name: "Checkout",
-    slug: "/checkout",
+    name: "Wishlist",
+    slug: "/wishlist",
   },
   {
     name: "Login",
