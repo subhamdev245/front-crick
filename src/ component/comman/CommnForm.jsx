@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import Button from "./ui/Button"
-import { renderInputsByComponentType } from "../../utils/renderInputByComponentType";
+import {Button} from "./ui/Index"
+import { renderInputsByComponentType } from "./RenderInputByComponentType";
 
 function CommonForm({
   formControls,
@@ -21,7 +21,6 @@ function CommonForm({
       <div className="flex flex-col gap-3">
         {formControls.map((controlItem) => (
           <div className="grid w-full gap-1.5" key={controlItem.name}>
-            
             {renderInputsByComponentType({
               getControlItem: controlItem,
               control,

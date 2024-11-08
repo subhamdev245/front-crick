@@ -8,14 +8,14 @@ const Select = forwardRef(({ label, name, value, onChange, options = [], error, 
         id={name}
         name={name}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={`p-3 border rounded-md ${error ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300`}
+        onChange={onChange} 
         ref={ref} 
+        className={`p-3 border rounded-md ${error ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300`}
       >
         <option value="">Select {label}</option>
         {options.length > 0 ? (
-          options.map((option) => (
-            <option key={option.value} value={option.value}>
+          options.map((option, index) => (
+            <option key={option.value || option.label || index} value={option.value}>
               {option.label}
             </option>
           ))
