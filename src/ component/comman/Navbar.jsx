@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { FaTachometerAlt, FaBoxes, FaClipboardList, FaUsers, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import { navbarNav } from '../../utils/const';
 
 const Navbar = () => {
@@ -12,9 +11,12 @@ const Navbar = () => {
     setSearchQuery(e.target.value);
   };
   const filterList = user
-    ? navbarNav  
-    : navbarNav.filter(item => item.name === 'Home' || item.name === 'Login' || item.name === 'Register'); 
-
+    ? navbarNav.filter(item => item.name !== "Login" )  
+    : navbarNav.filter(item => item.name === 'Home' || item.name === 'Login' || item.name === "Sports Trivia"); 
+  
+    
+    
+  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };

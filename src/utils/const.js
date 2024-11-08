@@ -25,6 +25,7 @@ export const adminSidebarNav = [
       name: "Logout",
       slug: "/logout",
     },
+    
   ];
 
 
@@ -52,7 +53,11 @@ export const navbarNav = [
     slug: "/login",
   },
   {
-    name: "Register",
-    slug: "/register",
+    name: "Sports Trivia",
+    slug: "/trivia",
+  },
+  {
+    name: "Logout",
+    slug: "/logout",
   },
 ];
