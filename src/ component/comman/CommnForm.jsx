@@ -1,36 +1,109 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import {Button} from "./ui/Index"
-import { renderInputsByComponentType } from "./RenderInputByComponentType";
 
-function CommonForm({
+import {Button,Input,Select,Textarea} from "./ui/Index"
+
+
+const CommonForm = ({
   formControls,
-  defaultValues,
+  formData,
+  setFormData,
   onSubmit,
   buttonText,
   isBtnDisabled,
-  validationSchema,
-}) {
+   
+}) => {
   
-  const { control, handleSubmit, formState: { errors } } = useForm({
-    defaultValues,
-  });
+  
+  const renderInputsByComponentType = (getControlItem) => {
+    let element = null;
+    const value = formData[getControlItem.name] || "";
+
+    switch (getControlItem.componentType) {
+      case "input":
+        element = (
+          <Input
+            name={getControlItem.name}
+            placeholder={getControlItem.placeholder}
+            id={getControlItem.name}
+            type={getControlItem.type}
+            value={value}
+            onChange={(event) =>
+              setFormData({
+                ...formData,
+                [getControlItem.name]: event.target.value,
+              })
+            }
+            
+          />
+        );
+        break;
+
+      case "select":
+        element = (
+          <Select
+            name={getControlItem.name}
+            value={value}
+            onChange={(value) =>
+              setFormData({
+                ...formData,
+                [getControlItem.name]: value,
+              })
+            }
+            options={getControlItem.options}
+            label={getControlItem.label}
+            
+          />
+        );
+        break;
+
+      case "textarea":
+        element = (
+          <Textarea
+            name={getControlItem.name}
+            placeholder={getControlItem.placeholder}
+            id={getControlItem.id}
+            value={value}
+            onChange={(event) =>
+              setFormData({
+                ...formData,
+                [getControlItem.name]: event.target.value,
+              })
+            }
+            
+          />
+        );
+        break;
+
+      default:
+        element = (
+          <Input
+            name={getControlItem.name}
+            placeholder={getControlItem.placeholder}
+            id={getControlItem.name}
+            type={getControlItem.type}
+            value={value}
+            onChange={(event) =>
+              setFormData({
+                ...formData,
+                [getControlItem.name]: event.target.value,
+              })
+            }
+            
+          />
+        );
+        break;
+    }
+
+    return element;
+  };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={onSubmit}>
       <div className="flex flex-col gap-3">
         {formControls.map((controlItem) => (
           <div className="grid w-full gap-1.5" key={controlItem.name}>
-            {renderInputsByComponentType({
-              getControlItem: controlItem,
-              control,
-              errors,
-              setFormData: null,  
-              formData: defaultValues, 
-            })}
-            {errors[controlItem.name] && (
-              <p className="text-sm text-red-500">{errors[controlItem.name]?.message}</p>
-            )}
+            
+            {renderInputsByComponentType(controlItem)}
           </div>
         ))}
       </div>
@@ -39,6 +112,6 @@ function CommonForm({
       </Button>
     </form>
   );
-}
+};
 
 export default CommonForm;
