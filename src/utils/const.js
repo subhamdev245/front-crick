@@ -149,7 +149,23 @@ export const formControlsForAddProduct = [
     type: "number",
     placeholder: "Enter stock quantity",
   },
+  {
+    name: "mainImage",
+    label: "Main Image",
+    componentType: "input",
+    type: "file",
+    placeholder: "Upload the main image",
+  },
+  {
+    name: "subImages",
+    label: "Sub Images",
+    componentType: "input",
+    type: "file",
+    placeholder: "Upload sub images",
+    multiple: true, 
+  },
 ];
+
 
 
 export const defaultValues = {

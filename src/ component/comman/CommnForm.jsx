@@ -1,7 +1,6 @@
 import React from "react";
-
-import {Button,Input,Select,Textarea} from "./ui/Index"
-
+import Select from 'react-select';
+import { Button, Input, Textarea } from "./ui/Index"; 
 
 const CommonForm = ({
   formControls,
@@ -10,91 +9,117 @@ const CommonForm = ({
   onSubmit,
   buttonText,
   isBtnDisabled,
-   
+  formErrors, 
 }) => {
-  
-  
+
   const renderInputsByComponentType = (getControlItem) => {
-    let element = null;
     const value = formData[getControlItem.name] || "";
+
+    const error = formErrors ? formErrors[getControlItem.name] : null;
 
     switch (getControlItem.componentType) {
       case "input":
-        element = (
-          <Input
-            name={getControlItem.name}
-            placeholder={getControlItem.placeholder}
-            id={getControlItem.name}
-            type={getControlItem.type}
-            value={value}
-            onChange={(event) =>
-              setFormData({
-                ...formData,
-                [getControlItem.name]: event.target.value,
-              })
-            }
-            
-          />
+        return (
+          <div className="form-group">
+            <Input
+              name={getControlItem.name}
+              placeholder={getControlItem.placeholder}
+              id={getControlItem.name}
+              type={getControlItem.type}
+              value={value}
+              onChange={(event) =>
+                setFormData({
+                  ...formData,
+                  [getControlItem.name]: event.target.value,
+                })
+              }
+            />
+            {error && <p className="text-red-500 text-sm">{error}</p>} 
+          </div>
         );
-        break;
 
       case "select":
-        element = (
-          <Select
-            name={getControlItem.name}
-            value={value}
-            onChange={(value) =>
-              setFormData({
-                ...formData,
-                [getControlItem.name]: value,
-              })
-            }
-            options={getControlItem.options}
-            label={getControlItem.label}
-            
-          />
+        return (
+          <div key={getControlItem.name} className="form-group">
+            <label htmlFor={getControlItem.name}>{getControlItem.label}</label>
+            <Select
+              name={getControlItem.name}
+              value={getControlItem.options.find(
+                (option) => option.value === value
+              )} 
+              onChange={(selectedOption) =>
+                setFormData({
+                  ...formData,
+                  [getControlItem.name]: selectedOption ? selectedOption.value : '',
+                })
+              }
+              options={getControlItem.options}
+              placeholder={getControlItem.placeholder}
+            />
+            {error && <p className="text-red-500 text-sm">{error}</p>} 
+          </div>
         );
-        break;
 
       case "textarea":
-        element = (
-          <Textarea
-            name={getControlItem.name}
-            placeholder={getControlItem.placeholder}
-            id={getControlItem.id}
-            value={value}
-            onChange={(event) =>
-              setFormData({
-                ...formData,
-                [getControlItem.name]: event.target.value,
-              })
-            }
-            
-          />
+        return (
+          <div className="form-group">
+            <Textarea
+              name={getControlItem.name}
+              placeholder={getControlItem.placeholder}
+              id={getControlItem.id}
+              value={value}
+              onChange={(event) =>
+                setFormData({
+                  ...formData,
+                  [getControlItem.name]: event.target.value,
+                })
+              }
+            />
+            {error && <p className="text-red-500 text-sm">{error}</p>} 
+          </div>
         );
-        break;
-
+        
+      case "file":
+        return (
+          <div key={getControlItem.name} className="form-group">
+            <label htmlFor={getControlItem.name}>{getControlItem.label}</label>
+            <input
+              name={getControlItem.name}
+              type="file"
+              id={getControlItem.name}
+              accept="image/*"
+              multiple={getControlItem.multiple || false} 
+              onChange={(event) =>
+                setFormData({
+                  ...formData,
+                  [getControlItem.name]: event.target.files,
+                })
+              }
+            />
+            {error && <p className="text-red-500 text-sm">{error}</p>} 
+          </div>
+        );
+        
       default:
-        element = (
-          <Input
-            name={getControlItem.name}
-            placeholder={getControlItem.placeholder}
-            id={getControlItem.name}
-            type={getControlItem.type}
-            value={value}
-            onChange={(event) =>
-              setFormData({
-                ...formData,
-                [getControlItem.name]: event.target.value,
-              })
-            }
-            
-          />
+        return (
+          <div className="form-group">
+            <Input
+              name={getControlItem.name}
+              placeholder={getControlItem.placeholder}
+              id={getControlItem.name}
+              type={getControlItem.type}
+              value={value}
+              onChange={(event) =>
+                setFormData({
+                  ...formData,
+                  [getControlItem.name]: event.target.value,
+                })
+              }
+            />
+            {error && <p className="text-red-500 text-sm">{error}</p>} 
+          </div>
         );
-        break;
     }
-
-    return element;
   };
 
   return (
@@ -102,7 +127,6 @@ const CommonForm = ({
       <div className="flex flex-col gap-3">
         {formControls.map((controlItem) => (
           <div className="grid w-full gap-1.5" key={controlItem.name}>
-            
             {renderInputsByComponentType(controlItem)}
           </div>
         ))}
