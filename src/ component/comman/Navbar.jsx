@@ -6,17 +6,13 @@ const Navbar = () => {
   // const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const user = true;
+  const user = false;
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
   const filterList = user
-    ? navbarNav.filter(item => item.name !== "Login" )  
-    : navbarNav.filter(item => item.name === 'Home' || item.name === 'Login' || item.name === "Sports Trivia"); 
-  
-    
-    
-  
+    ? navbarNav.filter(item => item.name !== "Login" && item.name !== "Register" )  
+    : navbarNav.filter(item => item.name === 'Home' || item.name === 'Login' || item.name === "Sports Trivia" || item.name === 'Register'); 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };

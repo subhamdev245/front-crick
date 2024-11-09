@@ -53,6 +53,10 @@ export const navbarNav = [
     slug: "/login",
   },
   {
+    name: "Register",
+    slug: "/register",
+  },
+  {
     name: "Sports Trivia",
     slug: "/trivia",
   },
