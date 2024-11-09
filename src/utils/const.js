@@ -84,6 +84,72 @@ export const formControlsForLogIn = [
     placeholder: "Enter your password",
   },
 ];
+export const formControlsForRegister = [
+  {
+    name: "username",
+    label: "Username",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your username",
+  },
+  {
+    name: "email",
+    label: "Email",
+    componentType: "input",
+    type: "email",
+    placeholder: "Enter your email",
+  },
+  {
+    name: "password",
+    label: "Password",
+    componentType: "input",
+    type: "password",
+    placeholder: "Enter your password",
+  },
+];
+
+export const formControlsForAddProduct = [
+  {
+    name: "category",
+    label: "Category",
+    componentType: "select",
+    options: [
+      { value: "", label: "Select a category" },
+      { value: "electronics", label: "Electronics" },
+      { value: "sports", label: "Sports" },
+      { value: "fashion", label: "Fashion" },
+      { value: "home", label: "Home & Living" },
+    ],
+    placeholder: "Select product category",
+  },
+  {
+    name: "name",
+    label: "Product Name",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter product name",
+  },
+  {
+    name: "description",
+    label: "Product Description",
+    componentType: "textarea",
+    placeholder: "Enter product description",
+  },
+  {
+    name: "price",
+    label: "Price",
+    componentType: "input",
+    type: "number",
+    placeholder: "Enter product price",
+  },
+  {
+    name: "stock",
+    label: "Stock Quantity",
+    componentType: "input",
+    type: "number",
+    placeholder: "Enter stock quantity",
+  },
+];
 
 
 export const defaultValues = {

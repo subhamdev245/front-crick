@@ -12,7 +12,7 @@ const CheckAuth = (isAuthenticate,isAdmin,children) => {
     // Check for non-admins trying to visit admin pages
 
     if (!isAuthenticate && location.pathname.includes("/shop")) {
-        return <Navigate to="/auth/login" replace />
+        return <Navigate to="/login" replace />
     }
     if (isAuthenticate && location.pathname.includes("/login")) {
         if (isAdmin) {
