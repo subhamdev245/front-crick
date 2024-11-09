@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CommonForm from './CommnForm';
 import { formControlsForLogIn } from '../../utils/const';
 import { isEmail, isNotEmpty } from '../../utils/validation';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, selectAuthLoading, selectAuthError,  selectIsAuthenticated } from '../../store/AuthSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const isLoading = useSelector(selectAuthLoading);
+  const authError = useSelector(selectAuthError); 
+  const loginSuccess = useSelector(selectIsAuthenticated);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [formErrors, setFormErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  // Form validation
   const validate = () => {
     let errors = {};
 
@@ -26,18 +34,32 @@ const Login = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const onSubmit = (event) => {
+  
+  const onSubmit = async (event) => {
     event.preventDefault();
-
+    console.log(formData);
+    
     if (!validate()) {
-      setErrorMessage('Please fix the errors above');
       return;
     }
 
-    setErrorMessage(''); // Clear general error message on successful validation
     setIsSubmitting(true);
-    console.log('Form Data Submitted:', formData);
+
+    try {
+       dispatch(login(formData));
+    } catch (error) {
+      console.error("Login Error:", error);
+    }
   };
+
+  useEffect(() => {
+    if (loginSuccess) {
+      const timer = setTimeout(() => {
+        navigate('/');
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [loginSuccess, navigate]);
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500">
@@ -56,8 +78,8 @@ const Login = () => {
           <div className="bg-gray-100 rounded-lg p-6 shadow-md">
             <h2 className="text-2xl font-medium text-gray-800 text-center mb-4">Sign In</h2>
 
-            {errorMessage && (
-              <div className="text-red-500 text-center mb-4">{errorMessage}</div>
+            {authError && (
+              <div className="text-red-500 text-center mb-4">{authError}</div> // Show authError if it exists
             )}
 
             {formErrors.email && (
@@ -70,11 +92,11 @@ const Login = () => {
 
             <CommonForm
               formControls={formControlsForLogIn}
-              buttonText={isSubmitting ? "Signing In..." : "Sign In"}
+              buttonText={isLoading ? "Signing In..." : "Sign In"}
               formData={formData}
               setFormData={setFormData}
               onSubmit={onSubmit}
-              isBtnDisabled={isSubmitting}
+              isBtnDisabled={isLoading || isSubmitting}
             />
           </div>
 
