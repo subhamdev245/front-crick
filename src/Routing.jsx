@@ -1,6 +1,8 @@
 import { createBrowserRouter, Router } from "react-router-dom";
 import App from "./App";
-
+import  EccomHome  from "./ component/eccomview/EccomHome"
+import Login from "./ component/comman/Login";
+import Register from "./ component/comman/Register";
 
 const router = createBrowserRouter([
     {
@@ -9,14 +11,21 @@ const router = createBrowserRouter([
         children : [
             {
                 path : "/",
-                element : <HomeProduct />
-
+                element : <EccomHome />
+            },
+            {
+                path : "/login",
+                element : <Login />
+            },
+            {
+                path : "/register",
+                element : <Register />
             }
         ]
     }
 ])
 
-
+export default router
 
 
 

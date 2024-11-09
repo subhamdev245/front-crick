@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { navbarNav } from '../../utils/const';
 
 const Navbar = () => {
-  // const location = useLocation();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const user = false;
@@ -34,17 +34,17 @@ const Navbar = () => {
           />
         </div>
         <ul className="hidden md:flex space-x-6">
-          {navbarNav.map((item, index) => {
+          {filterList.map((item, index) => {
             const isActive = location.pathname === item.slug;
 
             return (
               <li key={index}>
-                <span
+                <Link to={filterList[index].slug}
                   className={`flex items-center space-x-2 p-2 rounded-md ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'} transition-colors`}
                 >
                   <span>{filterList[index]?.name}</span>
                   
-                </span>
+                </Link>
               </li>
             );
           })}
@@ -59,15 +59,14 @@ const Navbar = () => {
       </div>
       <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden bg-gray-800`}>
         <ul className="space-y-4 py-4 text-center">
-          {navbarNav.map((item, index) => {
+          {filterList.map((item, index) => {
             const isActive = location.pathname === item.slug;
-
             return (
               <li key={index}>
                 <button
                   className={`flex items-center space-x-2 p-2 rounded-md ${isActive ? 'bg-gray-700' : 'hover:bg-gray-600 cursor-pointer'} transition-colors w-full`}
                 >
-                  <span>{filterList[index]?.name}</span>
+                  <Link to={filterList[index].slug}>{filterList[index]?.name}</Link>
                 </button>
               </li>
             );

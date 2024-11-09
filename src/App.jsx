@@ -6,6 +6,7 @@ import CommonForm from "./ component/comman/CommnForm";
 import Login from "./ component/comman/Login";
 import Register from "./ component/comman/Register";
 import AddProduct from "./ component/comman/AddProduct";
+import { Outlet } from "react-router-dom";
 
 
 const App = () => {
@@ -14,7 +15,7 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <AddProduct />
+      <Outlet />
     </>
   );
 };
