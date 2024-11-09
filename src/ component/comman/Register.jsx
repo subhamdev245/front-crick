@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import { formControlsForRegister } from '../../utils/const';
 import { isEmail, isNotEmpty } from '../../utils/validation';
 import CommonForm from './CommnForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { register, selectAuthLoading, selectAuthError, selectRegisterSuccess } from '../../store/AuthSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const isLoading = useSelector(selectAuthLoading);
+  const authError = useSelector(selectAuthError);
+  const registerSuccess = useSelector(selectRegisterSuccess);
   const [formData, setFormData] = useState({
-    username: '',
+    name: '',
     email: '',
     password: '',
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [formErrors, setFormErrors] = useState({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const validate = () => {
     let errors = {};
+
+    const nameError = isNotEmpty(formData.name);
+    if (nameError) errors.name = nameError;
 
     const emailError = isEmail(formData.email);
     if (emailError) errors.email = emailError;
@@ -24,25 +32,32 @@ const Register = () => {
     const passwordError = isNotEmpty(formData.password);
     if (passwordError) errors.password = passwordError;
 
-    const usernameError = isNotEmpty(formData.username);
-    if (usernameError) errors.username = usernameError;
-
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
 
     if (!validate()) {
-      setErrorMessage('Please fix the errors above');
       return;
     }
 
-    setErrorMessage('');
-    setIsSubmitting(true);
-    console.log('Form Data Submitted:', formData);
+    try {
+      await dispatch(register(formData));
+    } catch (error) {
+      console.error("Registration Error:", error);
+    }
   };
+
+  useEffect(() => {
+    if (registerSuccess) {
+      const timer = setTimeout(() => {
+        navigate('/login');
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [registerSuccess, navigate]);
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500">
@@ -61,12 +76,12 @@ const Register = () => {
           <div className="bg-gray-100 rounded-lg p-6 shadow-md">
             <h2 className="text-2xl font-medium text-gray-800 text-center mb-4">Create an Account</h2>
 
-            {errorMessage && (
-              <div className="text-red-500 text-center mb-4">{errorMessage}</div>
+            {authError && (
+              <div className="text-red-500 text-center mb-4">{authError}</div>
             )}
 
-            {formErrors.username && (
-              <div className="text-red-500 text-center mb-4">{formErrors.username}</div>
+            {formErrors.name && (
+              <div className="text-red-500 text-center mb-4">{formErrors.name}</div>
             )}
 
             {formErrors.email && (
@@ -77,13 +92,17 @@ const Register = () => {
               <div className="text-red-500 text-center mb-4">{formErrors.password}</div>
             )}
 
+            {registerSuccess && (
+              <div className="text-green-500 text-center mb-4">Registration successful! Redirecting to login...</div>
+            )}
+
             <CommonForm
               formControls={formControlsForRegister}
-              buttonText={isSubmitting ? "Registering..." : "Sign Up"}
+              buttonText={isLoading ? "Registering..." : "Sign Up"}
               formData={formData}
               setFormData={setFormData}
               onSubmit={onSubmit}
-              isBtnDisabled={isSubmitting}
+              isBtnDisabled={isLoading}
             />
           </div>
 

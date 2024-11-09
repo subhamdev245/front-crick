@@ -28,11 +28,9 @@ export const isEmail = (value) => {
   };
   
   export const isNotEmpty = (value) => {
-    if (!value || value.trim() === '') {
-      return 'This field cannot be empty';
-    }
-    return null;
+    return value.trim() === '' ? 'This field cannot be empty' : '';
   };
+  
   
   export const isMongoId = (value) => {
     const regex = /^[0-9a-fA-F]{24}$/;

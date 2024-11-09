@@ -6,7 +6,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/api/login', credentials);
+      const response = await axios.post('http://localhost:8097/api/v1/user/register', credentials);
       return response.data; 
     } catch (error) {
       
@@ -16,16 +16,18 @@ export const login = createAsyncThunk(
 );
 
 export const register = createAsyncThunk(
-  'auth/register',
+  'user/register',
   async (userDetails, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/api/register', userDetails);
-      return response.data; 
+      const response = await axios.post('http://localhost:8097/api/v1/user/register', userDetails);
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Registration failed');
+      const message = error.response?.data?.message || 'Registration failed';
+      return rejectWithValue(message);
     }
   }
 );
+
 
 // Initial state for the slice
 const initialState = {

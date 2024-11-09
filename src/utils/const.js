@@ -86,11 +86,11 @@ export const formControlsForLogIn = [
 ];
 export const formControlsForRegister = [
   {
-    name: "username",
-    label: "Username",
+    name: "name",
+    label: "name",
     componentType: "input",
     type: "text",
-    placeholder: "Enter your username",
+    placeholder: "Enter your name",
   },
   {
     name: "email",
@@ -169,7 +169,7 @@ export const formControlsForAddProduct = [
 
 
 export const defaultValues = {
-  username: "",
+  name: "",
   email: "",
   country: "",
   bio: "",
