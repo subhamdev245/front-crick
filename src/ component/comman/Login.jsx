@@ -37,7 +37,7 @@ const Login = () => {
   
   const onSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
+    
     
     if (!validate()) {
       return;

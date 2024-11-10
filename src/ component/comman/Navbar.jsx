@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { navbarNav } from '../../utils/const';
-
+import { selectIsAuthenticated } from '../../store/AuthSlice';
+import { useSelector } from 'react-redux';
 const Navbar = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const user = false;
+  const user = useSelector(selectIsAuthenticated);
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
