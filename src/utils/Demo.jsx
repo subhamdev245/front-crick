@@ -6,7 +6,7 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:8097/api/v1/user/login', credentials,{withCredentials:true});
+      const response = await axios.post('http://localhost:8097/api/v1/user/login', credentials);
       return response.data; 
     } catch (error) {
       
@@ -15,20 +15,8 @@ export const login = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk(
-  'auth/logout' , async (_,{rejectWithValue}) => {
-    try {
-      const response = await axios.post('http://localhost:8097/api/v1/user/logout',{}, {withCredentials:true});
-      return response.data; 
-    } catch (error) {
-      const message = error.response?.data?.message || 'Logout failed';
-      return rejectWithValue(message);
-    }
-  }
-)
-
 export const register = createAsyncThunk(
-  'auth/register',
+  'user/register',
   async (userDetails, { rejectWithValue }) => {
     try {
       const response = await axios.post('http://localhost:8097/api/v1/user/register', userDetails);
@@ -85,21 +73,6 @@ const authSlice = createSlice({
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || 'Registration failed'; 
-      })
-      .addCase(logout.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(logout.fulfilled, (state, action) => {
-        state.isAuthenticated = false;
-        state.user = null; 
-        state.isAdmin = false; 
-        state.isLoading = false;
-        state.error = null; 
-      })
-      .addCase(logout.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload || 'logout failed'; 
       });
   },
 });

@@ -1,21 +1,30 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { navbarNav } from '../../utils/const';
-import { selectIsAuthenticated } from '../../store/AuthSlice';
-import { useSelector } from 'react-redux';
+import { logout, selectIsAuthenticated } from '../../store/AuthSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
 const Navbar = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const user = useSelector(selectIsAuthenticated);
+
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
+
   const filterList = user
-    ? navbarNav.filter(item => item.name !== "Login" && item.name !== "Register" )  
+    ? navbarNav.filter(item => item.name !== "Login" && item.name !== "Register")  
     : navbarNav.filter(item => item.name === 'Home' || item.name === 'Login' || item.name === "Sports Trivia" || item.name === 'Register'); 
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   return (
@@ -24,7 +33,6 @@ const Navbar = () => {
         <div className="text-2xl font-bold">
           <span>PlayVerse</span>
         </div>
-        {/* Search Box */}
         <div className="hidden md:block w-1/3">
           <input
             type="text"
@@ -40,12 +48,21 @@ const Navbar = () => {
 
             return (
               <li key={index}>
-                <Link to={filterList[index].slug}
-                  className={`flex items-center space-x-2 p-2 rounded-md ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'} transition-colors`}
-                >
-                  <span>{filterList[index]?.name}</span>
-                  
-                </Link>
+                {item.name === 'Logout' ? (
+                  <button
+                    onClick={handleLogout}
+                    className={`flex items-center space-x-2 p-2 rounded-md ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'} transition-colors`}
+                  >
+                    <span>{item.name}</span>
+                  </button>
+                ) : (
+                  <Link
+                    to={item.slug}
+                    className={`flex items-center space-x-2 p-2 rounded-md ${isActive ? 'bg-gray-700' : 'hover:bg-gray-700'} transition-colors`}
+                  >
+                    <span>{item.name}</span>
+                  </Link>
+                )}
               </li>
             );
           })}
@@ -64,11 +81,21 @@ const Navbar = () => {
             const isActive = location.pathname === item.slug;
             return (
               <li key={index}>
-                <button
-                  className={`flex items-center space-x-2 p-2 rounded-md ${isActive ? 'bg-gray-700' : 'hover:bg-gray-600 cursor-pointer'} transition-colors w-full`}
-                >
-                  <Link to={filterList[index].slug}>{filterList[index]?.name}</Link>
-                </button>
+                {item.name === 'Logout' ? (
+                  <button
+                    onClick={handleLogout}
+                    className={`flex items-center space-x-2 p-2 rounded-md ${isActive ? 'bg-gray-700' : 'hover:bg-gray-600 cursor-pointer'} transition-colors w-full`}
+                  >
+                    <span>{item.name}</span>
+                  </button>
+                ) : (
+                  <Link
+                    to={item.slug}
+                    className={`flex items-center space-x-2 p-2 rounded-md ${isActive ? 'bg-gray-700' : 'hover:bg-gray-600 cursor-pointer'} transition-colors w-full`}
+                  >
+                    <span>{item.name}</span>
+                  </Link>
+                )}
               </li>
             );
           })}

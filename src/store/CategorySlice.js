@@ -25,17 +25,6 @@ export const createCategory = createAsyncThunk(
   }
 );
 
-export const editCategory = createAsyncThunk(
-  'category/editCategory',
-  async ({ categoryId, categoryData }, { rejectWithValue }) => {
-    try {
-      const response = await axios.put(`/api/categories/${categoryId}`, categoryData);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Failed to update category');
-    }
-  }
-);
 
 export const deleteCategory = createAsyncThunk(
   'category/deleteCategory',
@@ -82,21 +71,6 @@ const categorySlice = createSlice({
         state.categories.push(action.payload);
       })
       .addCase(createCategory.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(editCategory.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(editCategory.fulfilled, (state, action) => {
-        state.isLoading = false;
-        const index = state.categories.findIndex(category => category._id === action.payload._id);
-        if (index !== -1) {
-          state.categories[index] = action.payload;
-        }
-      })
-      .addCase(editCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Async Thunks for Product CRUD operations
+
 export const fetchProducts = createAsyncThunk(
   'product/fetchProducts',
   async (_, { rejectWithValue }) => {
@@ -10,6 +10,30 @@ export const fetchProducts = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Error fetching products');
+    }
+  }
+);
+
+export const fetchProductByCategory = createAsyncThunk(
+  'product/fetchProductByCategory',
+  async (categoryId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`/api/products/category/${categoryId}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error fetching products by category');
+    }
+  }
+);
+
+export const getSingleProduct = createAsyncThunk(
+  'product/getSingleProduct',
+  async (productId, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`/api/products/${productId}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Error fetching product');
     }
   }
 );
@@ -53,6 +77,7 @@ export const deleteProduct = createAsyncThunk(
 // Initial State
 const initialState = {
   products: [],
+  product: null,
   isLoading: false,
   error: null,
 };
@@ -74,6 +99,30 @@ const productSlice = createSlice({
       .addCase(fetchProducts.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || 'Error fetching products';
+      })
+      .addCase(fetchProductByCategory.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchProductByCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.products = action.payload;
+      })
+      .addCase(fetchProductByCategory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || 'Error fetching products by category';
+      })
+      .addCase(getSingleProduct.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getSingleProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.product = action.payload;
+      })
+      .addCase(getSingleProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || 'Error fetching product';
       })
       .addCase(createProduct.pending, (state) => {
         state.isLoading = true;
@@ -117,5 +166,6 @@ const productSlice = createSlice({
 export default productSlice.reducer;
 
 export const selectProducts = (state) => state.product.products;
+export const selectProduct = (state) => state.product.product;
 export const selectProductLoading = (state) => state.product.isLoading;
 export const selectProductError = (state) => state.product.error;
