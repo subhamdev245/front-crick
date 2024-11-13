@@ -30,7 +30,7 @@ export const getSingleProduct = createAsyncThunk(
   'product/getSingleProduct',
   async (productId, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`/api/products/${productId}`);
+      const response = await axios.get(`http://localhost:8097/api/v1/product/get-product/${productId}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Error fetching product');

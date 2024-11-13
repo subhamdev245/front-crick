@@ -10,7 +10,8 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const user = useSelector(selectIsAuthenticated);
-
+  
+  
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
