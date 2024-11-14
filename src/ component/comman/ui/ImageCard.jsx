@@ -10,7 +10,7 @@ const ImageCard = ({ className, onClick, imageUrl, rounded }) => {
         <img
           src={imageUrl || "https://via.placeholder.com/400x200?text=No+Image"}
           alt="Card Image"
-          className="w-full h-48 object-cover"
+          className="w-full h-48 object-cover sm:h-56 md:h-64 lg:h-72 xl:h-80"
         />
       </div>
     </div>

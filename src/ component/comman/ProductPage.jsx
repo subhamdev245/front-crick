@@ -3,8 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSingleProduct, selectProduct, selectProductError, selectProductLoading } from '../../store/ProductSlice';
 import { selectIsAuthenticated } from '../../store/AuthSlice';
 import { FaShoppingCart, FaHeart } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
 
-const ProductPage = ({ productId }) => {
+const ProductPage = () => {
+  const { productId } = useParams();
+  
+
   const dispatch = useDispatch();
   const productDetails = useSelector(selectProduct);
   const isLoading = useSelector(selectProductLoading);
@@ -19,12 +23,10 @@ const ProductPage = ({ productId }) => {
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };
-   
-  const product = productDetails.data
-   
+
+  const product = productDetails?.data;
 
   useEffect(() => {
-    // Set initial image if product.mainImage exists
     if (product && product.mainImage?.length > 0) {
       setSelectedImage(product.mainImage[0]); // Use the first main image as the default
     }
@@ -43,8 +45,8 @@ const ProductPage = ({ productId }) => {
   }
 
   return (
-    <div className="p-6 max-w-6xl mx-auto bg-white shadow-xl rounded-lg">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className="p-6 max-w-full mx-auto bg-white">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
         <div className="flex flex-col items-center space-y-4">
           {/* Side Images */}
           <div className="flex space-x-4 overflow-x-auto">
@@ -53,7 +55,7 @@ const ProductPage = ({ productId }) => {
                 key={index}
                 src={image}
                 alt={`side-image-${index}`}
-                className="w-16 h-16 object-cover rounded-lg cursor-pointer border border-gray-300 hover:border-blue-500 transition-all duration-300"
+                className="w-16 h-16 object-contain rounded-lg cursor-pointer border border-gray-300 hover:border-blue-500 transition-all duration-300"
                 onClick={() => handleImageClick(image)}
               />
             ))}
@@ -63,7 +65,7 @@ const ProductPage = ({ productId }) => {
           <img
             src={selectedImage || product.mainImage?.[0]} // Safely access mainImage
             alt={product.name}
-            className="w-full h-80 object-cover rounded-lg shadow-md"
+            className="w-full h-96 object-contain rounded-lg"
           />
         </div>
 
@@ -71,7 +73,7 @@ const ProductPage = ({ productId }) => {
           <h1 className="text-3xl font-semibold text-gray-800">{product.name}</h1>
           <p className="text-xl font-bold text-gray-900">{`$${product.price}`}</p>
           <p className="text-gray-700">{product.description}</p>
-          
+
           {isAuthenticated ? (
             <div className="flex space-x-4 mt-4">
               <button

@@ -3,6 +3,7 @@ import App from "./App";
 import  EccomHome  from "./ component/eccomview/EccomHome"
 import Login from "./ component/comman/Login";
 import Register from "./ component/comman/Register";
+import ProductPage from "./ component/comman/ProductPage";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path : "/register",
                 element : <Register />
+            },
+            {
+                path : "/product/:productId",
+                element : <ProductPage />
             }
         ]
     }
