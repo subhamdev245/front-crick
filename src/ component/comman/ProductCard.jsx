@@ -1,7 +1,9 @@
 import React from "react";
+import ProductCardByCategory from "./ProductCardByCateogy";
 
 const ProductCard = ({ product }) => {
   return (
+    <>
     <div className="card bg-base-100 w-96 shadow-xl transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
       <figure className="px-10 pt-10">
         <img
@@ -19,6 +21,8 @@ const ProductCard = ({ product }) => {
         <p className="text-lg font-bold text-white">{`$${product.price}`}</p>
       </div>
     </div>
+    
+    </>
   );
 };
 

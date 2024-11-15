@@ -3,7 +3,7 @@ import axios from "axios";
 import ProductCard from "./ProductCard";
 import { Link } from "react-router-dom";
 
-const ProductCardByCategory = ({ categoryId }) => {
+const ProductCardByCategory = ({ categoryId, productId }) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -38,15 +38,17 @@ const ProductCardByCategory = ({ categoryId }) => {
     return <div className="text-center text-gray-500">No products found</div>;
   }
 
+  // Filter out the product that matches the productId
+  const filteredProducts = products.filter(product => product._id !== productId);
+
   return (
     <div className="rounded-box h-96 flex flex-row gap-4 overflow-x-auto">
-  {products.map((product) => (
-    <Link to={`/product/${product._id}`} key={product._id} className="h-full flex-shrink-0">
-      <ProductCard product={product} />
-    </Link>
-  ))}
-</div>
-
+      {filteredProducts.map((product) => (
+        <Link to={`/product/${product._id}`} key={product._id} className="h-full flex-shrink-0">
+          <ProductCard product={product} />
+        </Link>
+      ))}
+    </div>
   );
 };
 
