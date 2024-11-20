@@ -4,12 +4,16 @@ import { selectCategories,selectCategoryLoading,selectCategoryError, fetchCatego
 import ProductPage from '../comman/ProductPage'
 import ProductCard from '../comman/ProductCard'
 import CategoriesPage from '../comman/ShopByCategoryPage'
+import Filter from '../comman/ui/Filter'
+import { Link } from 'react-router-dom'
 
 
 const EccomHome = () => {
   
   return (
-    <CategoriesPage />
+     <>
+     <CategoriesPage />
+     </>
   )
 }
 
