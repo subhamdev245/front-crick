@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSingleProduct, selectProduct, selectProductError, selectProductLoading } from '../../store/ProductSlice';
-
 import { selectIsAuthenticated } from '../../store/AuthSlice';
 import { FaShoppingCart, FaHeart } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 import ProductCardByCategory from './ProductCardByCateogy';
 import CategoriesPage from './ShopByCategoryPage';
 import { selectCategories } from '../../store/CategorySlice';
-
 const ProductPage = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
@@ -53,7 +51,7 @@ const ProductPage = () => {
   return (
     <>
     
-    <div className="p-6 max-w-full mx-auto bg-white">
+    <div className="p-6 max-w-full mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
         {/* Left side (Images) */}
         <div className="flex flex-col items-center space-y-4">
@@ -80,9 +78,9 @@ const ProductPage = () => {
 
         {/* Right side (Product Details) */}
         <div className="flex flex-col justify-center space-y-6">
-          <h1 className="text-3xl font-semibold text-gray-800 text-center">{product.name}</h1>
-          <p className="text-xl font-bold text-gray-900 text-center">{`$${product.price}`}</p>
-          <p className="text-gray-700 text-center">{product.description}</p>
+          <h1 className="text-3xl font-semibold text-white-800 text-center">{product.name}</h1>
+          <p className="text-xl font-bold text-white-900 text-center">{`$${product.price}`}</p>
+          <p className="text-white-700 text-center">{product.description}</p>
 
           {/* Conditional Buttons (if authenticated) */}
           {isAuthenticated ? (
@@ -99,7 +97,7 @@ const ProductPage = () => {
               </button>
             </div>
           ) : (
-            <p className="text-sm text-gray-500 mt-4 text-center">
+            <p className="text-md text-white-700 mt-4 text-center">
               Please log in to add to cart or wishlist.
             </p>
           )}
@@ -107,16 +105,22 @@ const ProductPage = () => {
       </div>
     </div>
     <div>
-       <div className='text-2xl font-bold text-center '>
+       <div className='text-2xl font-bold text-center mt-2 '>
         Realted Products
        </div>
+       <div className='carousel carousel-center rounded-box'>
        {
+        
         product.category?.map((categoryId) => {
           return (
-            <ProductCardByCategory key={`related-product-${categoryId}`} categoryId={categoryId} productId={productId} />
+            <div key={`related-product-${categoryId}`} className='carousel-item'>
+              <ProductCardByCategory  categoryId={categoryId} productId={productId} />
+            </div>
+            
           )
         })
        }
+      </div> 
     </div>
     </>
   );

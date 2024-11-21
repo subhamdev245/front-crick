@@ -5,6 +5,7 @@ import Login from "./ component/comman/Login";
 import Register from "./ component/comman/Register";
 import ProductPage from "./ component/comman/ProductPage";
 import Filter from "./ component/comman/ui/Filter";
+import EcoomProduct from "./ component/eccomview/EcoomProduct";
 
 const router = createBrowserRouter([
     {
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
             },
             {
                 path : "/products",
-                element : <Filter />
+                element : <EcoomProduct />
 
             }
         ]

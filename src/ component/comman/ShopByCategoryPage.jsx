@@ -43,7 +43,7 @@ const CategoriesPage = () => {
   const allCategories = categories?.data;
 
   return (
-    <div className="container mx-auto p-6 bg-white">
+    <div className="container mx-auto p-6">
       <h1 className="text-4xl font-semibold text-center mb-8">
         Shop by Category
       </h1>
@@ -55,14 +55,14 @@ const CategoriesPage = () => {
               height="100px"
               rounded="rounded-lg"
               margin="m-4"
-              className="bg-black"
+              className="bg-[#DBEAFE] "
               onClick={() => handleCategoryClick(category._id)}
             >
               <div
-                className="flex justify-center items-center h-full text-white text-lg font-semibold overflow-hidden"
+                className="flex justify-center items-center h-full text-black text-lg font-semibold overflow-hidden"
                 title={category?.name}
               >
-                <span className="truncate">{category?.name}</span>
+                <span className="truncate text-black">{category?.name}</span>
               </div>
             </Box>
           </div>

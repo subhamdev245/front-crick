@@ -4,15 +4,29 @@ import axios from 'axios';
 
 export const fetchProducts = createAsyncThunk(
   'product/fetchProducts',
-  async (_, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
+    const { page, limit, sortItem, sortOrder, categoryId,playerId } = params;
     try {
-      const response = await axios.get('/api/products');
+      const response = await axios.post('http://localhost:8097/api/v1/product/get-Products/', 
+        {
+          page,
+          limit,
+          sort: sortItem,      
+          sortOrder,            
+          category : categoryId,
+          featuredPlayers : playerId
+        },
+      );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || 'Error fetching products');
+      
+      return rejectWithValue(
+        error.response?.data?.message || 'Error fetching products'
+      );
     }
   }
 );
+
 
 export const fetchProductByCategory = createAsyncThunk(
   'product/fetchProductByCategory',
