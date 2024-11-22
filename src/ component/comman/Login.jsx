@@ -14,7 +14,7 @@ const Login = () => {
     email: '',
     password: '',
   });
-  console.log(isLoading);
+  
   
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -55,10 +55,10 @@ const Login = () => {
 
   useEffect(() => {
     if (loginSuccess) {
-      const timer = setTimeout(() => {
+      
         navigate('/');
-      }, 1000);
-      return () => clearTimeout(timer);
+      
+      
     }
   }, [loginSuccess, navigate]);
 

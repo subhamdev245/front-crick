@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { navbarNav } from '../../utils/const';
 import { logout, selectIsAuthenticated } from '../../store/AuthSlice';
@@ -10,7 +10,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const user = useSelector(selectIsAuthenticated);
-  
+   
   
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -27,6 +27,9 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout());
   };
+  useEffect(() => {
+    setIsMenuOpen(false); 
+  }, [location]); 
 
   return (
     <nav className="bg-gray-800 text-white p-4">

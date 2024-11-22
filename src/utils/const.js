@@ -45,8 +45,8 @@ export const navbarNav = [
     slug: "/account",
   },
   {
-    name: "Wishlist",
-    slug: "/wishlist",
+    name: "Product",
+    slug: "/products",
   },
   {
     name: "Login",

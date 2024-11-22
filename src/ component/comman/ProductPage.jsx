@@ -4,9 +4,12 @@ import { getSingleProduct, selectProduct, selectProductError, selectProductLoadi
 import { selectIsAuthenticated } from '../../store/AuthSlice';
 import { FaShoppingCart, FaHeart } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
-import ProductCardByCategory from './ProductCardByCateogy';
-import CategoriesPage from './ShopByCategoryPage';
+
 import { selectCategories } from '../../store/CategorySlice';
+import { addItemToCart, getCartDetails, selectCart, selectCartError, selectCartLoading } from '../../store/CartSlice';
+
+
+
 const ProductPage = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
@@ -15,8 +18,9 @@ const ProductPage = () => {
   const error = useSelector(selectProductError);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [selectedImage, setSelectedImage] = useState(null);
-  const category = useSelector(selectCategories)  
-  console.log(category);
+  const cartLoading = useSelector(selectCartLoading)
+  
+
   
   useEffect(() => {
     dispatch(getSingleProduct(productId));
@@ -25,6 +29,18 @@ const ProductPage = () => {
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };
+   
+  const addCart = (productId, quantity = 1) => {
+    dispatch(addItemToCart({ productId, quantity }))
+      .then(() => {
+        dispatch(getCartDetails());
+      })
+      .catch((err) => {
+        console.error('Failed to add to cart:', err);
+      });
+  };
+  
+
 
   const product = productDetails?.data;
   
@@ -87,6 +103,11 @@ const ProductPage = () => {
             <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-x-4 md:space-y-0 mt-4">
               <button
                 className="flex items-center justify-center px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 w-full md:w-auto"
+                onClick={() => {
+                 
+                 addCart(product.id)
+          
+               }}
               >
                 <FaShoppingCart className="mr-2" /> Add to Cart
               </button>
@@ -104,24 +125,7 @@ const ProductPage = () => {
         </div>
       </div>
     </div>
-    <div>
-       <div className='text-2xl font-bold text-center mt-2 '>
-        Realted Products
-       </div>
-       <div className='carousel carousel-center rounded-box'>
-       {
-        
-        product.category?.map((categoryId) => {
-          return (
-            <div key={`related-product-${categoryId}`} className='carousel-item'>
-              <ProductCardByCategory  categoryId={categoryId} productId={productId} />
-            </div>
-            
-          )
-        })
-       }
-      </div> 
-    </div>
+
     </>
   );
 };
